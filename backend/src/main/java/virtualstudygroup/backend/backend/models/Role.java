@@ -1,4 +1,4 @@
-package virtualstudygroup.backend.backend;
+package virtualstudygroup.backend.backend.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

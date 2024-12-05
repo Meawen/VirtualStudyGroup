@@ -1,4 +1,4 @@
-package virtualstudygroup.backend.backend;
+package virtualstudygroup.backend.backend.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -12,25 +12,30 @@ import java.time.Instant;
 @Getter
 @Setter
 @Entity
-@Table(name = "study_groups")
-public class StudyGroup {
+@Table(name = "goals")
+public class Goal {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "study_groups_id_gen")
-    @SequenceGenerator(name = "study_groups_id_gen", sequenceName = "study_groups_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "goals_id_gen")
+    @SequenceGenerator(name = "goals_id_gen", sequenceName = "goals_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private StudyGroup group;
+
     @Size(max = 255)
     @NotNull
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "title", nullable = false)
+    private String title;
 
     @Column(name = "description", length = Integer.MAX_VALUE)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by")
-    private User createdBy;
+    @Size(max = 50)
+    @ColumnDefault("'TO DO'")
+    @Column(name = "status", length = 50)
+    private String status;
 
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
