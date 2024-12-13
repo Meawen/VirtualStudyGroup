@@ -22,47 +22,33 @@ public class StudyGroupController {
         this.studyGroupService = studyGroupService;
     }
 
-
-    @PostMapping
-    public ResponseEntity<StudyGroup> createStudyGroup(@Valid @RequestBody StudyGroup studyGroup) {
-        StudyGroup createdStudyGroup = studyGroupService.create(studyGroup);
-        return new ResponseEntity<>(createdStudyGroup, HttpStatus.CREATED);
+    // Provjeri može li korisnik pristupiti grupi
+    @GetMapping("/{groupId}/access/{userId}")
+    public ResponseEntity<StudyGroup> checkAccessToGroup(@PathVariable Integer groupId, @PathVariable Integer userId) {
+        return studyGroupService.getGroupIfUserHasAccess(groupId, userId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(403).build());
     }
 
 
-    @GetMapping("/{id}")
-    public ResponseEntity<StudyGroup> getStudyGroupById(@PathVariable Integer id) {
-        Optional<StudyGroup> studyGroup = studyGroupService.findById(id);
-        return studyGroup.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-
-
-    @GetMapping
-    public ResponseEntity<List<StudyGroup>> getAllStudyGroups() {
-        List<StudyGroup> studyGroups = studyGroupService.findAll();
+    // Get all Public StudyGroups
+    @GetMapping("/public")
+    public ResponseEntity<List<StudyGroup>> getAllPublicStudyGroups() {
+        List<StudyGroup> studyGroups = studyGroupService.findAllPublic();
         return ResponseEntity.ok(studyGroups);
     }
 
-
-    @PutMapping("/{id}")
-    public ResponseEntity<StudyGroup> updateStudyGroup(@PathVariable Integer id, @Valid @RequestBody StudyGroup updatedStudyGroup) {
-        try {
-            StudyGroup updated = studyGroupService.update(id, updatedStudyGroup);
-            return ResponseEntity.ok(updated);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    // Get Private StudyGroups for a specific User
+    @GetMapping("/private/{userId}")
+    public ResponseEntity<List<StudyGroup>> getPrivateGroupsForUser(@PathVariable Integer userId) {
+        List<StudyGroup> studyGroups = studyGroupService.findPrivateGroupsByUser(userId);
+        return ResponseEntity.ok(studyGroups);
     }
 
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudyGroupById(@PathVariable Integer id) {
-        try {
-            studyGroupService.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    // Create a new StudyGroup
+    @PostMapping
+    public ResponseEntity<StudyGroup> createStudyGroup(@Valid @RequestBody StudyGroup studyGroup) {
+        StudyGroup createdStudyGroup = studyGroupService.create(studyGroup);
+        return ResponseEntity.ok(createdStudyGroup);
     }
 }

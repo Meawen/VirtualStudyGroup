@@ -42,4 +42,9 @@ public class StudyGroup {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+    @Size(max = 50)
+    @NotNull
+    @ColumnDefault("'PUBLIC'") // Default to 'PUBLIC'
+    @Column(name = "visibility", nullable = false)
+    private String visibility; // PUBLIC or PRIVATE
 }

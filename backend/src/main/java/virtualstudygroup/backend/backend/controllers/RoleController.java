@@ -22,14 +22,12 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-    // Create a new Role
     @PostMapping
     public ResponseEntity<Role> createRole(@Valid @RequestBody Role role) {
         Role createdRole = roleService.create(role);
         return new ResponseEntity<>(createdRole, HttpStatus.CREATED);
     }
 
-    // Get a Role by ID
     @GetMapping("/{id}")
     public ResponseEntity<Role> getRoleById(@PathVariable Integer id) {
         Optional<Role> role = roleService.findById(id);
@@ -37,14 +35,12 @@ public class RoleController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    // Get all Roles
     @GetMapping
     public ResponseEntity<List<Role>> getAllRoles() {
         List<Role> roles = roleService.findAll();
         return ResponseEntity.ok(roles);
     }
 
-    // Update a Role
     @PutMapping("/{id}")
     public ResponseEntity<Role> updateRole(@PathVariable Integer id, @Valid @RequestBody Role updatedRole) {
         try {
@@ -55,7 +51,6 @@ public class RoleController {
         }
     }
 
-    // Delete a Role by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRoleById(@PathVariable Integer id) {
         try {
