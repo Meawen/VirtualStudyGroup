@@ -1,4 +1,4 @@
-import React from "react";
+import "react";
 import CreateGroupForm from "./components/CreateGroupForm";
 import StudyGroupList from "./components/StudyGroupList";
 
