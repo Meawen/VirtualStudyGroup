@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Link } from "react-router-dom";
+import StudyGroupList from "./components/StudyGroupList";
+import CreateGroupForm from "./components/CreateGroupForm";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+    return (
+        <div className="min-h-screen bg-gray-900 text-white">
+            {/* Header and Navigation */}
+            <header className="p-4 bg-gray-800 shadow-md">
+                <h1 className="text-3xl font-bold text-center">Virtual Study Group Platform</h1>
+                <nav className="flex justify-center gap-6 mt-4">
+                    <Link to="/" className="text-blue-400 hover:text-blue-300 text-lg">
+                        Home
+                    </Link>
+                    <Link to="/create" className="text-blue-400 hover:text-blue-300 text-lg">
+                        Create Group
+                    </Link>
+                </nav>
+            </header>
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+            {/* Main Content */}
+            <main className="p-4">
+                <div className="max-w-screen-md mx-auto">
+                    <Routes>
+                        {/* Home Page: List of Public Study Groups */}
+                        <Route path="/" element={<StudyGroupList/>}/>
 
-export default App
+                        {/* Create Group Page */}
+                        <Route path="/create" element={<CreateGroupForm/>}/>
+                    </Routes>
+                </div>
+            </main>
+
+
+            {/* Footer */}
+            <footer className="p-4 bg-gray-800 text-center text-gray-400">
+                © {new Date().getFullYear()} Virtual Study Group Platform
+            </footer>
+        </div>
+    );
+};
+
+export default App;
