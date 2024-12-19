@@ -33,6 +33,10 @@ public class VirtualRoom {
     @ColumnDefault("CURRENT_TIMESTAMP")
     private Instant createdAt;
 
+    @Column(name = "timer", nullable = false)
+    @ColumnDefault("0")
+    private Integer timer;
+
     @OneToMany(mappedBy = "virtualRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages;
 
