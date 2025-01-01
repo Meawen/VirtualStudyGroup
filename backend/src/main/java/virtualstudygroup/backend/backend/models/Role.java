@@ -25,4 +25,10 @@ public class Role {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
+    public Role(long l) {
+    }
+
+    public Role() {
+
+    }
 }
