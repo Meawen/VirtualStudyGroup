@@ -27,14 +27,15 @@ public class JwtUtil {
         return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
     }
 
-    public String generateToken(User user) {
+    public String generateToken(String username) {
         return Jwts.builder()
-                .setSubject(user.getEmail())
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
 
     public String extractEmail(String token) {
         return extractClaims(token).getSubject();

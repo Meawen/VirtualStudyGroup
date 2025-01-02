@@ -1,5 +1,6 @@
 package virtualstudygroup.backend.backend.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +20,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    @Autowired
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
@@ -26,15 +28,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Public access to authentication endpoints
-                        .anyRequest().authenticated()                // Protect all other endpoints
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .cors(Customizer.withDefaults());
-
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()) // Temporarily allow all requests
+                .cors(Customizer.withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 
