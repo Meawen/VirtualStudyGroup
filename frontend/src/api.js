@@ -8,3 +8,17 @@ export const getPublicGroups = async () => {
 export const createGroup = async (groupData) => {
     return axios.post(`${API_URL}/study-groups`, groupData);
 };
+
+export const createGoal = async (goalData) => {
+    const response = await fetch(`${API_URL}/goals`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(goalData),
+    });
+    if (!response.ok) {
+        throw new Error("Failed to create goal");
+    }
+    return await response.json();
+};

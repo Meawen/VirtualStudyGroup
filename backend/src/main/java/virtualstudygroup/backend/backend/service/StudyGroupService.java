@@ -55,7 +55,6 @@ public class StudyGroupService {
         }).orElseThrow(() -> new IllegalArgumentException("StudyGroup with ID " + id + " not found"));
     }
 
-    // Delete a StudyGroup by ID
     public void deleteById(Integer id) {
         if (studyGroupRepository.existsById(id)) {
             studyGroupRepository.deleteById(id);

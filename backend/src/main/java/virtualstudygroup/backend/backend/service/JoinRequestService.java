@@ -16,22 +16,18 @@ public class JoinRequestService {
         this.joinRequestRepository = joinRequestRepository;
     }
 
-    // Kreiranje zahtjeva za pridruživanje
     public JoinRequest create(JoinRequest joinRequest) {
         return joinRequestRepository.save(joinRequest);
     }
 
-    // Dohvati zahtjeve za određenu grupu
     public List<JoinRequest> findAllByGroupId(Integer groupId) {
         return joinRequestRepository.findAllByGroupId(groupId);
     }
 
-    // Dohvati zahtjeve korisnika
     public List<JoinRequest> findAllByUserId(Integer userId) {
         return joinRequestRepository.findAllByUserId(userId);
     }
 
-    // Prihvati zahtjev
     public JoinRequest acceptRequest(Integer requestId) {
         return joinRequestRepository.findById(requestId).map(request -> {
             request.setStatus("ACCEPTED");
@@ -39,7 +35,6 @@ public class JoinRequestService {
         }).orElseThrow(() -> new IllegalArgumentException("JoinRequest with ID " + requestId + " not found"));
     }
 
-    // Odbij zahtjev
     public void rejectRequest(Integer requestId) {
         joinRequestRepository.findById(requestId).ifPresent(request -> {
             request.setStatus("REJECTED");

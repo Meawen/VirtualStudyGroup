@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 import StudyGroupList from "./components/StudyGroupList";
 import CreateGroupForm from "./components/CreateGroupForm";
+import CreateGoalForm from "./components/CreateGoalForm"; // Import CreateGoalForm
 
 const App = () => {
     return (
@@ -15,6 +16,9 @@ const App = () => {
                     <Link to="/create" className="text-blue-400 hover:text-blue-300 text-lg">
                         Create Group
                     </Link>
+                    <Link to="/create-goal" className="text-blue-400 hover:text-blue-300 text-lg">
+                        Create Goal
+                    </Link>
                 </nav>
             </header>
 
@@ -23,14 +27,16 @@ const App = () => {
                 <div className="max-w-screen-md mx-auto">
                     <Routes>
                         {/* Home Page: List of Public Study Groups */}
-                        <Route path="/" element={<StudyGroupList/>}/>
+                        <Route path="/" element={<StudyGroupList />} />
 
                         {/* Create Group Page */}
-                        <Route path="/create" element={<CreateGroupForm/>}/>
+                        <Route path="/create" element={<CreateGroupForm />} />
+
+                        {/* Create Goal Page */}
+                        <Route path="/create-goal" element={<CreateGoalForm />} />
                     </Routes>
                 </div>
             </main>
-
 
             {/* Footer */}
             <footer className="p-4 bg-gray-800 text-center text-gray-400">

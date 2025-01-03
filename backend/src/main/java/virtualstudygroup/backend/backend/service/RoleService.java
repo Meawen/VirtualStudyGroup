@@ -17,22 +17,18 @@ public class RoleService {
         this.roleRepository = roleRepository;
     }
 
-    // Create a new Role
     public Role create(Role role) {
         return roleRepository.save(role);
     }
 
-    // Read a Role by ID
     public Optional<Role> findById(Integer id) {
         return roleRepository.findById(id);
     }
 
-    // Read all Roles
     public List<Role> findAll() {
         return roleRepository.findAll();
     }
 
-    // Update a Role
     public Role update(Integer id, Role updatedRole) {
         return roleRepository.findById(id).map(role -> {
             role.setName(updatedRole.getName());
@@ -40,7 +36,6 @@ public class RoleService {
         }).orElseThrow(() -> new IllegalArgumentException("Role with ID " + id + " not found"));
     }
 
-    // Delete a Role by ID
     public void deleteById(Integer id) {
         if (roleRepository.existsById(id)) {
             roleRepository.deleteById(id);

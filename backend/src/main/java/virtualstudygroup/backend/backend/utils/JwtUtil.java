@@ -20,7 +20,6 @@ public class JwtUtil {
 
     @Value("${JWT_EXPIRATION}")
     private long expirationTime;
-    // 1 day in milliseconds
 
     private Key getSigningKey() {
         byte[] keyBytes = Base64.getDecoder().decode(secretKey);

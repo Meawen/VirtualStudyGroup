@@ -22,7 +22,6 @@ public class UserService {
         this.roleRepository = roleRepository;
     }
 
-    // Create a new User
     public User create(User user) {
         user.setPasswordHash(PasswordHashingUtility.hashPassword(user.getPasswordHash()));
         if (user.getRole() == null) {
@@ -33,17 +32,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // Read a User by ID
     public Optional<User> findById(Integer id) {
         return userRepository.findById(id);
     }
 
-    // Read all Users
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    // Update a User
     public User update(Integer id, User updatedUser) {
         return userRepository.findById(id).map(user -> {
             user.setName(updatedUser.getName());

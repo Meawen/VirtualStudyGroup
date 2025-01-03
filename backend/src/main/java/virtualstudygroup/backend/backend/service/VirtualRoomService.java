@@ -27,12 +27,10 @@ public class VirtualRoomService {
         return virtualRoomRepository.findById(id);
     }
 
-    // Read all VirtualRooms
     public List<VirtualRoom> findAll() {
         return virtualRoomRepository.findAll();
     }
 
-    // Update a VirtualRoom
     public VirtualRoom update(Integer id, VirtualRoom updatedVirtualRoom) {
         return virtualRoomRepository.findById(id).map(virtualRoom -> {
             virtualRoom.setName(updatedVirtualRoom.getName());

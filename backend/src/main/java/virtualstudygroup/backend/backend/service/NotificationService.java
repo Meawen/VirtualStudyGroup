@@ -17,27 +17,22 @@ public class NotificationService {
         this.notificationRepository = notificationRepository;
     }
 
-    // Create a new Notification
     public Notification create(Notification notification) {
         return notificationRepository.save(notification);
     }
 
-    // Read a Notification by ID
     public Optional<Notification> findById(Integer id) {
         return notificationRepository.findById(id);
     }
 
-    // Read all Notifications
     public List<Notification> findAll() {
         return notificationRepository.findAll();
     }
 
-    // Read all Notifications by User ID
     public List<Notification> findAllByUserId(Integer userId) {
         return notificationRepository.findAllByUserId(userId);
     }
 
-    // Update a Notification
     public Notification update(Integer id, Notification updatedNotification) {
         return notificationRepository.findById(id).map(notification -> {
             notification.setMessage(updatedNotification.getMessage());
@@ -47,7 +42,6 @@ public class NotificationService {
         }).orElseThrow(() -> new IllegalArgumentException("Notification with ID " + id + " not found"));
     }
 
-    // Delete a Notification by ID
     public void deleteById(Integer id) {
         if (notificationRepository.existsById(id)) {
             notificationRepository.deleteById(id);
