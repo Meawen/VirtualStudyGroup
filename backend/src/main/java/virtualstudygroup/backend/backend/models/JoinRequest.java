@@ -1,12 +1,16 @@
 package virtualstudygroup.backend.backend.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import virtualstudygroup.backend.backend.models.StudyGroup;
 import virtualstudygroup.backend.backend.models.User;
 
 import java.time.Instant;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "join_requests")
 public class JoinRequest {
@@ -33,45 +37,6 @@ public class JoinRequest {
     @ColumnDefault("CURRENT_TIMESTAMP")
     private Instant createdAt;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public StudyGroup getGroup() {
-        return group;
-    }
-
-    public void setGroup(StudyGroup group) {
-        this.group = group;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
 }
 
 
