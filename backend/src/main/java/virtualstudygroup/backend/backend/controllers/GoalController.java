@@ -22,7 +22,7 @@ public class GoalController {
         this.goalService = goalService;
     }
 
-    
+
     @PostMapping
     public ResponseEntity<Goal> createGoal(@Valid @RequestBody Goal goal) {
         Goal createdGoal = goalService.create(goal);
