@@ -6,6 +6,9 @@ import virtualstudygroup.backend.backend.models.Membership;
 import virtualstudygroup.backend.backend.models.StudyGroup;
 import virtualstudygroup.backend.backend.repo.MembershipRepository;
 import virtualstudygroup.backend.backend.repo.StudyGroupRepository;
+import virtualstudygroup.backend.backend.validation.DescriptionMaxLengthRule;
+import virtualstudygroup.backend.backend.validation.NameNotEmptyRule;
+import virtualstudygroup.backend.backend.validation.StudyGroupValidator;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,20 +17,28 @@ import java.util.Optional;
 public class StudyGroupService {
     private final StudyGroupRepository studyGroupRepository;
     private final MembershipRepository membershipRepository;
-
-
+    private final StudyGroupValidator validator;
 
     @Autowired
     public StudyGroupService(StudyGroupRepository studyGroupRepository, MembershipRepository membershipRepository) {
         this.studyGroupRepository = studyGroupRepository;
         this.membershipRepository = membershipRepository;
-    }
 
+
+        this.validator = new StudyGroupValidator();
+        this.validator.addRule(new NameNotEmptyRule());
+        this.validator.addRule(new DescriptionMaxLengthRule());
+    }
 
     public StudyGroup create(StudyGroup studyGroup) {
+        // Validacija
+        List<String> errors = validator.validate(studyGroup);
+        if (!errors.isEmpty()) {
+            throw new IllegalArgumentException(String.join(", ", errors));
+        }
+
         return studyGroupRepository.save(studyGroup);
     }
-
 
     public Optional<StudyGroup> findById(Integer id) {
         return studyGroupRepository.findById(id);
@@ -47,10 +58,18 @@ public class StudyGroupService {
 
     public StudyGroup update(Integer id, StudyGroup updatedStudyGroup) {
         return studyGroupRepository.findById(id).map(studyGroup -> {
+
             studyGroup.setName(updatedStudyGroup.getName());
             studyGroup.setDescription(updatedStudyGroup.getDescription());
             studyGroup.setVisibility(updatedStudyGroup.getVisibility());
             studyGroup.setUpdatedAt(updatedStudyGroup.getUpdatedAt());
+
+            // Validacija
+            List<String> errors = validator.validate(studyGroup);
+            if (!errors.isEmpty()) {
+                throw new IllegalArgumentException(String.join(", ", errors));
+            }
+
             return studyGroupRepository.save(studyGroup);
         }).orElseThrow(() -> new IllegalArgumentException("StudyGroup with ID " + id + " not found"));
     }
@@ -73,7 +92,7 @@ public class StudyGroupService {
                 return Optional.of(studyGroup);
             }
 
-            // Ako je korisnik kreator grupe, ima pristup
+
             if (studyGroup.getCreatedBy().getId().equals(userId)) {
                 return Optional.of(studyGroup);
             }
@@ -86,6 +105,4 @@ public class StudyGroupService {
         }
         return Optional.empty();
     }
-
-
 }
