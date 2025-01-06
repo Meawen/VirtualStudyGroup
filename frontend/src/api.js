@@ -2,11 +2,9 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/api";
 
-
 const apiInstance = axios.create({
     baseURL: API_URL,
 });
-
 
 apiInstance.interceptors.request.use(
     (config) => {
@@ -21,33 +19,42 @@ apiInstance.interceptors.request.use(
     }
 );
 
-
+// Function to fetch public groups
 export const getPublicGroups = async () => {
-    return axios.get(`${API_URL}/study-groups/public`);
-};
-export const createGroup = async (groupData) => {
-    return axios.post(`${API_URL}/study-groups`, groupData);
+    try {
+        const response = await apiInstance.get("/study-groups/public");
+        return response.data;
+    } catch (error) {
+        throw new Error("Failed to fetch public groups");
+    }
 };
 
-<<<<<<< HEAD
+// Function to create a new study group
+export const createGroup = async (groupData) => {
+    try {
+        const response = await apiInstance.post("/study-groups", groupData);
+        return response.data;
+    } catch (error) {
+        throw new Error("Failed to create study group");
+    }
+};
+
+// Function to create a new goal
 export const createGoal = async (goalData) => {
-    const response = await fetch(`${API_URL}/goals`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(goalData),
-    });
-    if (!response.ok) {
+    try {
+        const response = await apiInstance.post("/goals", goalData);
+        return response.data;
+    } catch (error) {
         throw new Error("Failed to create goal");
     }
-    return await response.json();
 };
-=======
+
+// Function to log in a user
 export const login = async (email, password) => {
-    const response = await axios.post(`${API_URL}/auth/login`, { email, password });
-    return response.data;
-
-
+    try {
+        const response = await apiInstance.post("/auth/login", { email, password });
+        return response.data;
+    } catch (error) {
+        throw new Error("Login failed");
+    }
 };
->>>>>>> origin/main

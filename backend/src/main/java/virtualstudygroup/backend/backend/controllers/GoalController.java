@@ -22,14 +22,14 @@ public class GoalController {
         this.goalService = goalService;
     }
 
-    // Create a new Goal
+    
     @PostMapping
     public ResponseEntity<Goal> createGoal(@Valid @RequestBody Goal goal) {
         Goal createdGoal = goalService.create(goal);
         return new ResponseEntity<>(createdGoal, HttpStatus.CREATED);
     }
 
-    // Get a Goal by ID
+
     @GetMapping("/{id}")
     public ResponseEntity<Goal> getGoalById(@PathVariable Integer id) {
         Optional<Goal> goal = goalService.findById(id);
@@ -37,21 +37,21 @@ public class GoalController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    // Get all Goals
+
     @GetMapping
     public ResponseEntity<List<Goal>> getAllGoals() {
         List<Goal> goals = goalService.findAll();
         return ResponseEntity.ok(goals);
     }
 
-    // Get all Goals by Group ID
+
     @GetMapping("/group/{groupId}")
     public ResponseEntity<List<Goal>> getAllGoalsByGroupId(@PathVariable Integer groupId) {
         List<Goal> goals = goalService.findAllByGroupId(groupId);
         return ResponseEntity.ok(goals);
     }
 
-    // Update a Goal
+
     @PutMapping("/{id}")
     public ResponseEntity<Goal> updateGoal(@PathVariable Integer id, @Valid @RequestBody Goal updatedGoal) {
         try {
@@ -62,7 +62,7 @@ public class GoalController {
         }
     }
 
-    // Delete a Goal by ID
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGoalById(@PathVariable Integer id) {
         try {
