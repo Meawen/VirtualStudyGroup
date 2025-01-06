@@ -26,6 +26,7 @@ public class JwtUtil {
         return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
     }
 
+
     public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
