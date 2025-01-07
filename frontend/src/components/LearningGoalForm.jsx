@@ -4,6 +4,7 @@ const LearningGoalForm = ({ onSubmit }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [status, setStatus] = useState("TO DO");
+    const [deadline, setDeadline] = useState(""); // Novo polje za vremenski rok
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -11,11 +12,13 @@ const LearningGoalForm = ({ onSubmit }) => {
             title,
             description,
             status,
+            deadline,
         };
         onSubmit(newGoal);
         setTitle("");
         setDescription("");
         setStatus("TO DO");
+        setDeadline("");
     };
 
     return (
@@ -58,6 +61,17 @@ const LearningGoalForm = ({ onSubmit }) => {
                     <option value="IN PROGRESS">IN PROGRESS</option>
                     <option value="DONE">DONE</option>
                 </select>
+            </div>
+
+            <div className="mb-4">
+                <label htmlFor="deadline" className="block text-white font-bold mb-2">Deadline</label>
+                <input
+                    type="datetime-local" // HTML5 input za odabir datuma i vremena
+                    id="deadline"
+                    value={deadline}
+                    onChange={(e) => setDeadline(e.target.value)}
+                    className="w-full p-2 border border-gray-600 rounded bg-gray-700 text-white"
+                />
             </div>
 
             <button

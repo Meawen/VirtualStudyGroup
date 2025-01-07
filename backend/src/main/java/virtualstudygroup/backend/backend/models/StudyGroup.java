@@ -17,7 +17,11 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "study_groups")
-public class StudyGroup {
+public abstract class StudyGroup {
+
+    public abstract boolean userCanJoin(Integer userId);
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "study_groups_id_gen")
     @SequenceGenerator(name = "study_groups_id_gen", sequenceName = "study_groups_id_seq", allocationSize = 1)
