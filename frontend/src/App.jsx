@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 import StudyGroupList from "./components/StudyGroupList";
 import CreateGroupForm from "./components/CreateGroupForm";
+import LearningGoalForm from "./components/LearningGoalForm.jsx";
 
 const App = () => {
     return (
@@ -15,6 +16,9 @@ const App = () => {
                     <Link to="/create" className="text-blue-400 hover:text-blue-300 text-lg">
                         Create Group
                     </Link>
+                    <Link to="/learning-goal" className="text-blue-400 hover:text-blue-300 text-lg">
+                        Learning Goals
+                    </Link>
                 </nav>
             </header>
 
@@ -22,12 +26,11 @@ const App = () => {
             <main className="p-4">
                 <div className="max-w-screen-md mx-auto">
                     <Routes>
-                        {/* Home Page: List of Public Study Groups */}
-                        <Route path="/" element={<StudyGroupList/>}/>
-
-                        {/* Create Group Page */}
-                        <Route path="/create" element={<CreateGroupForm/>}/>
+                        <Route path="/" element={<StudyGroupList />} />
+                        <Route path="/create" element={<CreateGroupForm />} />
+                        <Route path="/learning-goal" element={<LearningGoalForm onSubmit={handleAddGoal} />} />
                     </Routes>
+
                 </div>
             </main>
 
@@ -38,6 +41,11 @@ const App = () => {
             </footer>
         </div>
     );
+};
+
+const handleAddGoal = (goal) => {
+    console.log("New Learning Goal:", goal);
+    // Ovdje logika za spremanje cilja putem API-ja !!!!!!
 };
 
 export default App;
