@@ -19,7 +19,6 @@ import java.util.List;
 @Table(name = "study_groups")
 public abstract class StudyGroup {
 
-    public abstract boolean userCanJoin(Integer userId);
 
 
     @Id
