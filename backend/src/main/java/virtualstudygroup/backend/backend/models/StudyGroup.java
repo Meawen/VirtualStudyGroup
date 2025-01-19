@@ -7,14 +7,20 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "study_groups")
-public class StudyGroup {
+public abstract class StudyGroup {
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "study_groups_id_gen")
     @SequenceGenerator(name = "study_groups_id_gen", sequenceName = "study_groups_id_seq", allocationSize = 1)
@@ -34,13 +40,16 @@ public class StudyGroup {
     @JsonIgnore
     private User createdBy;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at")
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VirtualRoom> virtualRooms;
 
     @Size(max = 50)
     @NotNull

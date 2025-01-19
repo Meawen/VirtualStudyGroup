@@ -17,27 +17,22 @@ public class GoalService {
         this.goalRepository = goalRepository;
     }
 
-    // Create a new Goal
     public Goal create(Goal goal) {
         return goalRepository.save(goal);
     }
 
-    // Read a Goal by ID
     public Optional<Goal> findById(Integer id) {
         return goalRepository.findById(id);
     }
 
-    // Read all Goals
     public List<Goal> findAll() {
         return goalRepository.findAll();
     }
 
-    // Read all Goals by Group ID
     public List<Goal> findAllByGroupId(Integer groupId) {
         return goalRepository.findAllByGroupId(groupId);
     }
 
-    // Update a Goal
     public Goal update(Integer id, Goal updatedGoal) {
         return goalRepository.findById(id).map(goal -> {
             goal.setTitle(updatedGoal.getTitle());
@@ -48,7 +43,6 @@ public class GoalService {
         }).orElseThrow(() -> new IllegalArgumentException("Goal with ID " + id + " not found"));
     }
 
-    // Delete a Goal by ID
     public void deleteById(Integer id) {
         if (goalRepository.existsById(id)) {
             goalRepository.deleteById(id);

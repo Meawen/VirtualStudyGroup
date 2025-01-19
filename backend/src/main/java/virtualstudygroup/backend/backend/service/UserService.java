@@ -2,8 +2,11 @@ package virtualstudygroup.backend.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import virtualstudygroup.backend.backend.models.Role;
 import virtualstudygroup.backend.backend.models.User;
+import virtualstudygroup.backend.backend.repo.RoleRepository;
 import virtualstudygroup.backend.backend.repo.UserRepository;
+import virtualstudygroup.backend.backend.utils.PasswordHashingUtility;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,28 +14,32 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
-    // Create a new User
     public User create(User user) {
+        user.setPasswordHash(PasswordHashingUtility.hashPassword(user.getPasswordHash()));
+        if (user.getRole() == null) {
+            Role defaultRole = roleRepository.findById(1)
+                    .orElseThrow(() -> new RuntimeException("Default role not found"));
+            user.setRole(defaultRole);
+        }
         return userRepository.save(user);
     }
 
-    // Read a User by ID
     public Optional<User> findById(Integer id) {
         return userRepository.findById(id);
     }
 
-    // Read all Users
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    // Update a User
     public User update(Integer id, User updatedUser) {
         return userRepository.findById(id).map(user -> {
             user.setName(updatedUser.getName());

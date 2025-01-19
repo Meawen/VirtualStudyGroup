@@ -6,8 +6,11 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -15,8 +18,8 @@ import java.time.Instant;
 @Table(name = "users")
 public class User {
     @Id
-    @ColumnDefault("nextval('users_id_seq')")
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_gen")
+    @SequenceGenerator(name = "users_id_gen", sequenceName = "users_id_seq", allocationSize = 1)
     private Integer id;
 
     @Size(max = 255)
@@ -37,17 +40,15 @@ public class User {
     @Column(name = "profile_picture", length = Integer.MAX_VALUE)
     private String profilePicture;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at")
-    private Instant createdAt;
+    @CreationTimestamp
+    @Column(name = "created_at",updatable = false)
+    private LocalDateTime createdAt;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @ColumnDefault("1")
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
-
 }
