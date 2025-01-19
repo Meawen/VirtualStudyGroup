@@ -23,15 +23,15 @@ apiInstance.interceptors.request.use(
 
 
 export const getPublicGroups = async () => {
-    return axios.get(`${API_URL}/study-groups/public`);
+    return apiInstance.get(`/study-groups/public`);
 };
+
 export const createGroup = async (groupData) => {
-    return axios.post(`${API_URL}/study-groups`, groupData);
+    return apiInstance.post(`/study-groups`, groupData);
 };
 
 export const login = async (email, password) => {
-    const response = await axios.post(`${API_URL}/auth/login`, { email, password });
+    const response = await apiInstance.post(`/auth/login`, { email, password });
     return response.data;
-
-
 };
+
