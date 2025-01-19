@@ -17,7 +17,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "study_groups")
-public abstract class StudyGroup {
+public class StudyGroup {
 
 
 
