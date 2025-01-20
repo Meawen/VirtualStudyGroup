@@ -2,6 +2,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import StudyGroupList from "./components/StudyGroupList";
 import CreateGroupForm from "./components/CreateGroupForm";
 import LearningGoalForm from "./components/LearningGoalForm.jsx";
+import Login from "./components/Login.jsx";
 
 const App = () => {
     return (
@@ -29,6 +30,7 @@ const App = () => {
                         <Route path="/" element={<StudyGroupList />} />
                         <Route path="/create" element={<CreateGroupForm />} />
                         <Route path="/learning-goal" element={<LearningGoalForm onSubmit={handleAddGoal} />} />
+                        <Route path="/login" element={<Login />} />
                     </Routes>
 
                 </div>
