@@ -58,4 +58,12 @@ export const login = async (email, password) => {
         throw new Error("Login failed");
     }
 };
-
+// Function to register a new user
+export const register = async (email, password) => {
+    try {
+        const response = await apiInstance.post("/auth/register", { email, password });
+        return response.data;  // Return user data and token
+    } catch (error) {
+        throw new Error("Registration failed");
+    }
+};
