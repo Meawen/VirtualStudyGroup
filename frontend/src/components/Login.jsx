@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../api";
+import PropTypes from "prop-types";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -14,15 +15,18 @@ const Login = () => {
 
         try {
             const data = await login(email, password);
-            console.log("Received Token:", data.token); // Log the token
-            localStorage.setItem("token", data.token); // Save token
+            console.log("Received Token:", data.token);
+            localStorage.setItem("token", data.token);
+            onLogin();
             navigate("/");
         } catch (err) {
             console.error("Login Error:", err.response || err.message);
             setError(err.response?.data?.message || "Login failed");
         }
     };
-
+    Login.propTypes = {
+        onLogin: PropTypes.func.isRequired,
+    };
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-900 text-white">
