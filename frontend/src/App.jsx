@@ -2,12 +2,10 @@ import { Routes, Route, Link } from "react-router-dom";
 import StudyGroupList from "./components/StudyGroupList";
 import CreateGroupForm from "./components/CreateGroupForm";
 import LearningGoalForm from "./components/LearningGoalForm.jsx";
-
 import AddNoteForm from "./components/AddNoteForm.jsx";
 import Login from "./components/Login.jsx";
 import { getUsernameFromToken } from "./utils/auth";
-import {useEffect, useState} from "react";
-
+import { useEffect, useState } from "react";
 
 const App = () => {
     const [username, setUsername] = useState(getUsernameFromToken());
@@ -23,36 +21,40 @@ const App = () => {
             window.removeEventListener("storage", handleStorageChange);
         };
     }, []);
+
     const handleLoginSuccess = () => {
         setUsername(getUsernameFromToken());  // Update the username state
     };
+
     const handleLogout = () => {
         localStorage.removeItem("token");
         setUsername(null);
         window.location.href = "/login";  // Redirect to login page
     };
 
+    const handleAddGoal = (goal) => {
+        console.log("New Learning Goal:", goal);
+        // Ovdje logika za spremanje cilja putem API-ja !!!
+    };
+
     return (
         <div className="min-h-screen bg-gray-900 text-white">
             {/* Header and Navigation */}
-<header className="p-4 bg-gray-800 shadow-md flex justify-between items-center">
-    <h1 className="text-3xl font-bold text-center">Virtual Study Group Platform</h1>
-    <nav className="flex gap-6">
-        <Link to="/" className="text-blue-400 hover:text-blue-300 text-lg">
-            Home
-        </Link>
-        <Link to="/create" className="text-blue-400 hover:text-blue-300 text-lg">
-            Create Group
-        </Link>
-        <Link to="/learning-goal" className="text-blue-400 hover:text-blue-300 text-lg">
-            Learning Goals
-        </Link>
-        <Link to="/add-note" className="text-blue-400 hover:text-blue-300 text-lg">
-            Add Note
-        </Link>
-    </nav>
-</header>
-
+            <header className="p-4 bg-gray-800 shadow-md flex justify-between items-center">
+                <h1 className="text-3xl font-bold text-center">Virtual Study Group Platform</h1>
+                <nav className="flex gap-6">
+                    <Link to="/" className="text-blue-400 hover:text-blue-300 text-lg">
+                        Home
+                    </Link>
+                    <Link to="/create" className="text-blue-400 hover:text-blue-300 text-lg">
+                        Create Group
+                    </Link>
+                    <Link to="/learning-goal" className="text-blue-400 hover:text-blue-300 text-lg">
+                        Learning Goals
+                    </Link>
+                    <Link to="/add-note" className="text-blue-400 hover:text-blue-300 text-lg">
+                        Add Note
+                    </Link>
                 </nav>
                 {username ? (
                     <div className="flex items-center gap-4">
@@ -75,12 +77,9 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<StudyGroupList />} />
                         <Route path="/create" element={<CreateGroupForm />} />
-
-                        <Route path="/add-note" element={<AddNoteForm />} /> {/* Ruta za dodavanje bilješki */}
-
-                        <Route path="/learning-goal" element={<LearningGoalForm onSubmit={handleAddGoal}/>} />
+                        <Route path="/add-note" element={<AddNoteForm />} />
+                        <Route path="/learning-goal" element={<LearningGoalForm onSubmit={handleAddGoal} />} />
                         <Route path="/login" element={<Login onLogin={handleLoginSuccess} />} />
-
                     </Routes>
                 </div>
             </main>
@@ -91,11 +90,6 @@ const App = () => {
             </footer>
         </div>
     );
-};
-
-const handleAddGoal = (goal) => {
-    console.log("New Learning Goal:", goal);
-    // Ovdje logika za spremanje cilja putem API-ja !!!
 };
 
 export default App;
