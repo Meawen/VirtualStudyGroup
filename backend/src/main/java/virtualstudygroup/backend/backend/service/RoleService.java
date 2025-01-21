@@ -27,14 +27,14 @@ public class RoleService {
 
     public List<Role> findAll() {
         return roleRepository.findAll();
-    }
-
-    public Role update(Integer id, Role updatedRole) {
+    }    public Role update(Integer id, Role updatedRole) {
         return roleRepository.findById(id).map(role -> {
             role.setName(updatedRole.getName());
             return roleRepository.save(role);
         }).orElseThrow(() -> new IllegalArgumentException("Role with ID " + id + " not found"));
     }
+
+
 
     public void deleteById(Integer id) {
         if (roleRepository.existsById(id)) {

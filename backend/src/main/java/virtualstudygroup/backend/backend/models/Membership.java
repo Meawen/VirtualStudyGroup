@@ -30,4 +30,7 @@ public class Membership {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "joined_at")
     private Instant joinedAt;
+
+
+
 }

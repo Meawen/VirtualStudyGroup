@@ -17,7 +17,7 @@ import java.util.Optional;
 public class StudyGroupService {
     private final StudyGroupRepository studyGroupRepository;
     private final MembershipRepository membershipRepository;
-    private final StudyGroupValidator validator;
+
 
     @Autowired
     public StudyGroupService(StudyGroupRepository studyGroupRepository, MembershipRepository membershipRepository) {
@@ -25,17 +25,11 @@ public class StudyGroupService {
         this.membershipRepository = membershipRepository;
 
 
-        this.validator = new StudyGroupValidator();
-        this.validator.addRule(new NameNotEmptyRule());
-        this.validator.addRule(new DescriptionMaxLengthRule());
+
     }
 
     public StudyGroup create(StudyGroup studyGroup) {
-        // Validacija
-        List<String> errors = validator.validate(studyGroup);
-        if (!errors.isEmpty()) {
-            throw new IllegalArgumentException(String.join(", ", errors));
-        }
+
 
         return studyGroupRepository.save(studyGroup);
     }
@@ -64,11 +58,8 @@ public class StudyGroupService {
             studyGroup.setVisibility(updatedStudyGroup.getVisibility());
             studyGroup.setUpdatedAt(updatedStudyGroup.getUpdatedAt());
 
-            // Validacija
-            List<String> errors = validator.validate(studyGroup);
-            if (!errors.isEmpty()) {
-                throw new IllegalArgumentException(String.join(", ", errors));
-            }
+
+
 
             return studyGroupRepository.save(studyGroup);
         }).orElseThrow(() -> new IllegalArgumentException("StudyGroup with ID " + id + " not found"));
