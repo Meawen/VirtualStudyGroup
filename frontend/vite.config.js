@@ -8,5 +8,9 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     include: ['src/**/*.test.jsx', 'src/**/*.test.js'],
+    coverage: {
+      provider: 'v8', // Use 'c8' or 'v8' for coverage
+      reporter: ['text', 'lcov'],
+    },
   },
 });
